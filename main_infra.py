@@ -250,7 +250,6 @@ class mainInfra:
         log.infog(' - End of makeProductSubview \n')
 
     def update_text_file (self,mtl,record_list):
-
         a=self.result_radiometricStability
         a.add_to_text_file(mtl,record_list)
 
@@ -459,12 +458,12 @@ class Radio_Txt_File:
             ch=''
             for el in record:
                 ch+= str(el)+' '
-            band_id = int((record[1].split('B'))[1])
+            band_id = int(record[1])
             ch_m = mtl.get_band_info(band_id)
-
             txtfile.write(' '.join([ch,ch_m,'\n']))
         txtfile.close()
-        print ' --- Save Statistics in :  ' + txtfile_name
+        print ' --- Save Statistics in :  '
+        print '                         '+txtfile_name
 
 #Functions for class main Infra
 #      1. crop_on_roi(image_list,output_repository,shape_uri)

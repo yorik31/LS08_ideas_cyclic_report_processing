@@ -8,7 +8,6 @@ import numpy as np
 from osgeo import gdal, ogr
 from osgeo.gdalnumeric import *
 from osgeo.gdalconst import *
-import metadata_extraction
 
 
 class radiometric_calibration:
@@ -16,21 +15,21 @@ class radiometric_calibration:
     def __init__(self,product_path,mtl):
         self.product = mtl
         print " -- Radiometric Calibration, Product : "+product_path
-        print self.product.radiance_image_list
+        if len(self.product.radiance_image_list) == 0:
+            print "%%%%% Warning, no Identified Radiance file, as results of processing"
         test_file = [os.path.exists(str(f)) for f in self.product.radiance_image_list]
-        print len(test_file)
-        if  len(test_file) == 0 :
+        #Et si test_file est vide on ne doit pas continuer
+        #Confition sur self.product.radiance_image_list
+
+        if  test_file[1] is False :
             self.convert_to_radiance()
 
-
-        #if  test_file[1] is False:
-        #    self.convert_to_radiance()
-
-        #test_file = [os.path.exists(str(f)) for f in self.product.rhotoa_image_list]
-        #if test_file[1] is False:
-        #    self.convert_to_reflectance()
+        test_file = [os.path.exists(str(f)) for f in self.product.rhotoa_image_list]
+        if test_file[1] is False:
+            self.convert_to_reflectance()
 
         #clean B6 band transformation
+        #Note : Ne supporte le nouveau format landsat
         list = glob.glob(os.path.join(product_path,'L*_R[A,H][D,O]_B6.TIF'))
         [os.system(' '.join(['rm -f', f])) for f in list]
 
@@ -43,7 +42,6 @@ class radiometric_calibration:
         output_image_list = self.product.radiance_image_list
         gain_list=self.product.rescaling_gain
         offset_list=self.product.rescaling_offset
-        print input_image_list
         for index,image_in in enumerate(input_image_list):
 
                 band_index=int((os.path.basename(image_in).split('B')[1]).split('.')[0])

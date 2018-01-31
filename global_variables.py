@@ -2,19 +2,19 @@
 import os
 
 #WINDOWS CONFIGURATION
-#INFRA_HOME = 'C:\DATA\INFRA'
-#INPUT_DATA = 'C:\DATA\INFRA\INPUT'
-#CODE = 'C:\Users\saunier\PycharmProjects\LS08_ideas_cyclic_report_processing'
+INFRA_HOME = 'C:\DATA\INFRA'
+INPUT_DATA = 'C:\DATA\INFRA\INPUT'
+CODE = 'C:\Users\saunier\PycharmProjects\LS08_ideas_cyclic_report_processing'
 #HTTP_PAGES='/var/www/html/ls08_performance_report'
-#PY_CLASS = 'C:\DEV\LIB\py_class'
+PY_CLASS = 'C:\DEV\LIB\py_class'
 
 #LINUX CONFIGURATION
-INFRA_HOME = '/home/saunier/DEV/LS08_ideas_cyclic_report__processing'
-INPUT_DATA = '/data1/LS8_OLI/'
-CODE = '/home/saunier/DEV/LS08_ideas_cyclic_report__processing/CODE/LS08_ideas_cyclic_report_processing'
-REFERENCE = '/home/saunier/INFRA/REFERENCE'
-HTTP_PAGES='/var/www/html/ls08_performance_report'
-PY_CLASS = '/home/saunier/INFRA/LIB/py_class'
+#INFRA_HOME = '/home/saunier/DEV/LS08_ideas_cyclic_report__processing'
+#INPUT_DATA = '/data1/LS8_OLI/'
+#CODE = '/home/saunier/DEV/LS08_ideas_cyclic_report__processing/CODE/LS08_ideas_cyclic_report_processing'
+#REFERENCE = '/home/saunier/INFRA/REFERENCE'
+#HTTP_PAGES='/var/www/html/ls08_performance_report'
+#PY_CLASS = '/home/saunier/INFRA/LIB/py_class'
 
 
 CONFIGURATION = os.path.join(INFRA_HOME,'CONFIGURATION')

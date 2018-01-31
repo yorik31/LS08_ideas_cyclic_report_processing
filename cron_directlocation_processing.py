@@ -4,7 +4,7 @@ import os,sys, io
 import imp
 import glob
 import numpy as np
-import metadata_extraction
+
 import main_infra
 import log
 from xml.dom import minidom
@@ -27,6 +27,8 @@ from run_medicis_module import updateMultitemporalMatFile
 
 #Use global variables
 from global_variables import *
+metadata_extraction = imp.load_source('metadata_extraction',os.path.join(PY_CLASS,'metadata_extraction.py'))
+
 
 import http_side #Internal Class 
 

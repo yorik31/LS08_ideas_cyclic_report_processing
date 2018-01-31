@@ -6,13 +6,12 @@ import time
 import glob
 import imp
 from global_variables import *
-metadata_extraction = imp.load_source('metadata_extraction',os.path.join(PY_CLASS,'metadata_extraction.py'))
 import main_infra
 import radiometric_calibration as rad
 import log
 import Image
 from global_variables import *
-#from itertools import groupby
+metadata_extraction = imp.load_source('metadata_extraction',os.path.join(PY_CLASS,'metadata_extraction.py'))
 
 #Trigger_radio_processing - in radiometric calibration stability
 #Si produit present dans calibration stability
@@ -32,17 +31,14 @@ def trigger_radio_processing(product):
     stat_table = []
     stat_table_sort = []
     roi_list=[rec for rec in glob.glob(os.path.join(product,'ROI*'))]
-
     for roi in roi_list:
         log.infog(' -- Processing of '+roi+'  : ')
         mtl = metadata_extraction.LandsatMTL(roi)
         mtl.set_test_site_information(infra.configuration_site_description_file)
         log.info(' -- Convert to RAD / TOA')
         mtl.display_mtl_info()
-        
         r=rad.radiometric_calibration(product,mtl)
-        log.info(' -- Extract / store statistics ')
-        mtl.update_image_file_list()
+        log.info(' -- Extract / store statistics : ')
 
         image_file_list=mtl.rhotoa_image_list        
         output_txt_file= RADIOMETRIC_STABILITY_RHO_RESULTS
@@ -68,6 +64,7 @@ def trigger_radio_processing(product):
 
 if __name__ == '__main__':
     infra=main_infra.mainInfra()
+
     infra.checkDirectoryPresence()
     interest='stabilityMonitoring'
     path_to_product=os.path.join(infra.processing_location,interest,'input','*')
@@ -77,22 +74,21 @@ if __name__ == '__main__':
        for product in product_list:
           print product
           trigger_radio_processing(product)
-	  if PROCESSING_STATUS == 'PASSED':
-          #si succes alors on efface le produit
-            done_repo = os.path.join(infra.processing_location,
-                                      interest,'done')
-            out = os.path.join(done_repo,os.path.basename(product))
-            log.warn(' -- '+out)
-            if (os.path.exists(out)):
-                   cmd=' '.join(['rm -rf ',out])
-                   os.system(cmd)
-                   log.warn(' -- Remove past product in done : ')
-                   log.warn(' -- '+os.path.basename(product)+' ')
-                   log.warn(' -- '+done_repo)
-
-	    log.info(' -- Move product to done ')
-#            cmd=' '.join(['mv ',product,done_repo])
-#            os.system(cmd)
+          # if PROCESSING_STATUS == 'PASSED':
+          #     #si succes alors on efface le produit
+          #     done_repo = os.path.join(infra.processing_location,
+          #                             interest,'done')
+          #     out = os.path.join(done_repo,os.path.basename(product))
+          #     log.warn(' -- '+out)
+          #     if (os.path.exists(out)):
+          #          cmd=' '.join(['rm -rf ',out])
+          #          os.system(cmd)
+          #          log.warn(' -- Remove past product in done : ')
+          #          log.warn(' -- '+os.path.basename(product)+' ')
+          #          log.warn(' -- '+done_repo)
+          #     log.info(' -- Move product to done ')
+          #     cmd=' '.join(['mv ',product,done_repo])
+          #     os.system(cmd)
     else :
        log.info(' -- No product to be processed ')
        log.info(' - End of radio_processing')

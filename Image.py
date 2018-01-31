@@ -7,6 +7,7 @@ from gdalconst import *
 from osgeo.gdalnumeric import *
 from osgeo.gdalconst import *
 import numpy as np
+import re as r
 import glob
 #define with raster Image and mtl file if available
 
@@ -17,9 +18,13 @@ class Statistics:
         #print 'image_statics_class'
         self.image_name = image_path
         self.image_radical = os.path.basename(self.image_name).split('.')[0]
-        self.image_id = (self.image_radical.split('_')[0])
 
-        self.channel_number = (self.image_radical.split('_')[2])
+        reg = 'B\d{1,2}'
+        p = r.compile(reg)
+        u = p.search(image_path)
+        band_id = (u.group(0).replace('B',''))
+        self.image_id = self.image_radical
+        self.channel_number = band_id
         self.roi_id = str(roi_id)
         self.stats = StatisticsValues()
 
